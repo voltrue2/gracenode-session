@@ -1,0 +1,23 @@
+{
+	"name": "gracenode-session",
+	"description": "session module for gracenode framework.",
+	"version": "0.1.0",
+	"author": "Nobuyori Takahashi <voltrue2@yahoo.com>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/voltrue2/gracenode-session.git"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"mocha": "1.18.2"
+	},
+	"engine": "node >= 0.10.20",
+	"contributors": [],
+	"keywords": [
+		"gracenode",
+		"framework",
+		"module",
+		"session"
+	],
+	"license": "MIT"
+}
