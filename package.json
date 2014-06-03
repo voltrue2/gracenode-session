@@ -12,7 +12,12 @@
 		"mocha": "1.18.2"
 	},
 	"engine": "node >= 0.10.20",
-	"contributors": [],
+	"contributors": [
+		{
+			"name": "Brian de Heus",
+			"email": "me@brian.jp"
+		}
+	],
 	"keywords": [
 		"gracenode",
 		"framework",
