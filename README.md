@@ -1,12 +1,14 @@
 # gracenode-session Module
 
-Session management module for gracenode framework.
+gracenode-session is designed to work within the Gracenode framework. It can not function without the Gracenode framework.
 
-This is designed to function within gracenode framework.
+## Installation
 
-## How to include it in my project
+```
+npm install gracenode-session
+```
 
-To add this package as your gracenode module, add the following to your package.json:
+Or add it to your package.json
 
 ```
 "dependencies": {
@@ -15,28 +17,18 @@ To add this package as your gracenode module, add the following to your package.
 }
 ```
 
-To use this module in your application, add the following to your gracenode bootstrap code:
+Gracenode does not automatically detect middleware. To add the session module to your framework you have to call `use`.
 
 ```
 var gracenode = require('gracenode');
-// this tells gracenode to load the module
 gracenode.use('gracenode-session');
 ```
 
-To access the module:
+Loading the session module like this will expose it in `gracenode.session`.
 
+## Configuration
+This module requires you to have a configuration parameter set for the TTL. Below is a configuration example.
 ```
-// the prefix gracenode- will be removed automatically
-gracenode.session
-```
-
-Access
-<pre>
-gracenode.session
-</pre>
-
-Configurations
-```javascript
 "modules": {
 	"session": {
 		"ttl": int (in seconds)
@@ -44,7 +36,11 @@ Configurations
 }
 ```
 
-Session module itself does NOT handle reading and writting of the session data.
+##Version 1.0.0
+Since version 1.0.0 there is a backward compatability break. When calling `getSession` a data object is no longer returned, instead an instantiated Session class is returned which allows for more control over the session data without having to query your datastore.
+
+##API
+
 ###Session Object
 When calling `getSession` an instance of the Session class is returned to retrieve and set data to the session.
 
@@ -68,68 +64,46 @@ session.save(function (error) {
 });
 ```
 
-#####API: *setGetter*
+###Methods
+
+####session.setGetter(getterFunction {function})
 Used to read data for getSession
-<pre>
-void setGetter(Function getterFunction);
-</pre>
 
-#####API: *setSetter*
+####session.setSetter(setterFunction {function})
 Used to store data for setSession
-<pre>
-void setSetter(Function setterFunction);
-</pre>
 
-#####API: *setRemover*
+####session.setRemover(deleteFunction {function})
 Used to delte data for delSession
-<pre>
-void setRemover(Function removerFunction);
-</pre>
 
-#####API: *setFlusher*
+####session.setFlusher(flusherFunction {function})
 Used to flush data for flush
-<pre>
-void setFlusher(Function flusherFunction);
-</pre>
 
-####API: *get*
-Shorthand for getSession.
+####session.get
+Shorthand for `getSession`.
 
-####API: *set*
-Shorthand for setSession.
+####session.set
+Shorthand for `setSession`.
 
-####API: *replace*
-Shorthand for replaceSession.
+####session.replace
+Shorthand for `replaceSession`.
 
-####API: *del*
-Shorthand for delSession.
+####session.del
+Shorthand for `delSession`.
 
-####API: *flush*
-Shorthand for flushSession.
+####session.flush
+Shorthand for `flushSession`.
 
-#####API: *getSession*
+####session.getSession(sessionId {string, int}, callback {function})
+Retrieve a new Session object from sessionId.
 
-<pre>
-void getSession(String sessionId, Function callback)
-</pre>
-> Passes a session object to the callback
+####session.setSession(sessionId {string, int}, data {object}, callback {function})
+Start a new session
 
-#####API: *setSession*
-<pre>
-void setSession(String, keyForNewSessionId, mixed value, Function callback)
-</pre>
+####session.replaceSession(sessionId {string, int}, callback {function});
+Replace the session with data in `data`. It is prefered you call `Session.save` instead.
 
-#####API: *replaceSession*
-<pre>
-void replaceSession(String sessionId, mixed value, Function callback)
-</pre>
+####session.delSession(sessionId {string, int}, callback {function})
+Destroy a session
 
-#####API: *delSession*
-<pre>
-void delSession(String sessionId, Function callback)
-</pre>
-
-#####API: *flushSession*
-<pre>
-void flush(Function callback)
-</pre>
+####session.flushSession(callback {function})
+Flush a session
