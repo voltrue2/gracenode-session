@@ -46,7 +46,56 @@ module.exports.setFlusher = function (func) {
 	flusher = func;
 };
 
+
+/**
+* @param sessionId {mixed} - ID to identify the session
+* @param data {object} - Object containing variables for this session.
+*/
+
+function Session(sessionId, data) {
+
+	this._id   = sessionId;
+	this._data = data || {};
+
+};
+
+/**
+* @param key {mixed} - Key to use for retrieving value
+* @param value {mixed} - Value to associated with key
+*/
+
+Session.prototype.set = function (key, value) {
+
+	this._data[key] = value;
+
+};
+
+/**
+* @param key {mixed} - Retrieve data associated with key
+*/
+Session.prototype.get = function (key) {
+
+	if (key === 'id') {
+		return this._id;
+	}
+
+	return this._data[key];
+
+};
+
+/**
+* Saves current session data.
+* @param cb {function} - Callback function called when the operation has failed or completed.
+*/
+
+Session.prototype.save = function (cb) {
+
+	module.exports.replaceSession(this._id, this._data, cb);
+
+};
+
 module.exports.getSession = function (id, cb) {
+
 	if (!validate(getter)) {
 		return cb(new Error('invalidGetterFunction'));
 	}
@@ -59,6 +108,7 @@ module.exports.getSession = function (id, cb) {
 	logger.verbose('get session (sessionId:' + id + ')');
 
 	getter(id, function (error, session) {
+
 		if (error) {
 			logger.error('failed to get a session:', error);
 			return cb(new Error('failedToGetSession'));
@@ -89,9 +139,12 @@ module.exports.getSession = function (id, cb) {
 			
 			logger.verbose('set session (sessionId:' + id + ')');
 			
-			cb(null, session.data);
+			cb(null, new Session(id, session.data));
+
 		});
+
 	});
+
 };
 
 module.exports.setSession = function (key, data, cb) {
