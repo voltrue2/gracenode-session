@@ -45,6 +45,28 @@ Configurations
 ```
 
 Session module itself does NOT handle reading and writting of the session data.
+###Session Object
+When calling `getSession` an instance of the Session class is returned to retrieve and set data to the session.
+
+####Session.get
+Returns a value for key if this has been stored.
+```
+session.get('key');
+```
+
+####Session.set
+Set a value for key.
+```
+session.set('foo', 'bar');
+```
+
+####Session.save
+Save the current data to your datastore.
+```
+session.save(function (error) {
+	//Your magic
+});
+```
 
 #####API: *setGetter*
 Used to read data for getSession
